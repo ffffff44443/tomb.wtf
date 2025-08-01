@@ -117,7 +117,7 @@
 
 <canvas class="stars"></canvas>
 
-<!-- Login Screen -->
+
 <div class="screen" id="loginScreen">
   <select id="userSelect" aria-label="Select user">
     <option disabled selected value="">choose user</option>
@@ -126,7 +126,7 @@
   <button id="loginBtn" disabled>login</button>
 </div>
 
-<!-- Bio Screen -->
+
 <div class="screen" id="bioScreen" style="display:none;">
   <div id="songInfo"></div> <!-- Scrolling song title -->
   <div id="asciiArtBox" aria-label="ASCII art">
@@ -172,7 +172,7 @@
 </div>
 
 <script>
-  // Starry animated background
+
   const canvas = document.querySelector('.stars');
   const ctx = canvas.getContext('2d');
 
@@ -228,7 +228,7 @@
   resizeCanvas();
   animateStars();
 
-  // Song logic
+
   const audio = document.getElementById('audio');
   const songList = ["song1.mp3", "song2.mp3", "song3.mp3"];
   const songMetadata = {
