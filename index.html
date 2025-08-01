@@ -14,6 +14,22 @@
     overflow: hidden;
     user-select: none;
   }
+.fade-blur {
+  animation: fadeBlur 0.6s ease forwards;
+}
+
+@keyframes fadeBlur {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+
+
   canvas.stars {
     position: fixed;
     top: 0; left: 0;
@@ -150,6 +166,12 @@
   let stars = [];
   let starCount = 0;
 
+    const songList = ["song1.mp3", "song2.mp3", "song3.mp3"];
+const randomSong = songList[Math.floor(Math.random() * songList.length)];
+audio.src = randomSong;
+audio.volume = 0.5;
+
+
   function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -205,35 +227,25 @@
 
 loginBtn.addEventListener("click", () => {
   if (userSelect.value === "tomb") {
+    audio.volume = 0.5;
     audio.play().catch(e => {
       console.error("Audio play failed:", e);
     });
-    loginScreen.style.display = 'none';
-    bioScreen.style.display = 'flex';
+
+    // Add blur/fade effect
+    loginScreen.classList.add("fade-blur");
+
+    // After animation ends, switch screens
+    setTimeout(() => {
+      loginScreen.style.display = 'none';
+      bioScreen.style.display = 'flex';
+    }, 600); // match animation duration
   }
 });
-(function() {
-  let devtoolsOpen = false;
-  const threshold = 160;
 
-  function detectDevTools() {
-    const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-    const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-    if (widthThreshold || heightThreshold) {
-      if (!devtoolsOpen) {
-        devtoolsOpen = true;
-        // Kick user out or redirect
 
-        window.location.href = "https://google.com"; // change to your desired URL
-      }
-    } else {
-      devtoolsOpen = false;
-    }
-  }
 
-  window.addEventListener("resize", detectDevTools);
-  setInterval(detectDevTools, 1000);
-})();
+
 
 </script>
 </body>
