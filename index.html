@@ -112,7 +112,7 @@
 </head>
 <body>
 <audio id="audio" preload="auto">
-  <source src="song.mp3" type="audio/mpeg">
+
 </audio>
 
 <canvas class="stars"></canvas>
@@ -143,7 +143,7 @@
 |            ;   .'(().  '      _/__..-        |
 |            \ _ '       __  _.-'--._          |
 |            ,'.'...____'::-'  \     `'        |
-|           / |   /         .---.              |
+|           / |   /    tomb .---.              |
 |     .-.  '  '  / ,---.   (     )             |
 |    / /       ,' (     )---`-`-`-.._          |
 |   : '       /  '-`-`-`..........--'\         |
@@ -165,7 +165,7 @@
   <div style="margin-top:2rem; font-size:1rem; color:#fff; max-width:600px; white-space:normal; text-align:left;">
     <div class="bio-desc">
       <span style="color:#bfc7d5;">
-      @tomb<br>
+      <br>
       </span>
     </div>
   </div>
@@ -239,7 +239,7 @@
 
   const randomSong = songList[Math.floor(Math.random() * songList.length)];
   audio.src = randomSong;
-  audio.volume = 0.5;
+  audio.volume = 0.2;
 
   const userSelect = document.getElementById('userSelect');
   const loginBtn = document.getElementById('loginBtn');
