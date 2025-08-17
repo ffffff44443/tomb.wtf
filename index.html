@@ -1,122 +1,140 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>tomb.wtf</title>
-<style>
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0; padding: 0; height: 100%;
-    background: #000;
-    color: #fff;
-    font-family: monospace, monospace;
-    overflow: hidden;
-    user-select: none;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>tomb.wtf</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      color: #fff;
+      font-family: monospace, monospace;
+      overflow: hidden;
+      user-select: none;
+      cursor: url('cursor.cur'), auto;
+    }
 
-  .fade-blur {
-    animation: fadeBlur 0.2s ease forwards;
-  }
+    .fade-blur {
+      animation: fadeBlur 0.2s ease forwards;
+    }
 
-  @keyframes fadeBlur {
-    0% { opacity: 1; filter: blur(0); }
-    100% { opacity: 0; filter: blur(5px); }
-  }
+    @keyframes fadeBlur {
+      0% { opacity: 1; filter: blur(0); }
+      100% { opacity: 0; filter: blur(5px); }
+    }
 
-  @keyframes scrollLeftToRight {
-    0%   { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
+    @keyframes scrollLeftToRight {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
 
-  canvas.stars {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-    image-rendering: pixelated;
-  }
+    canvas.stars {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      image-rendering: pixelated;
+    }
 
-  .screen {
-    position: relative;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-    padding: 1rem;
-  }
+    .screen {
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      padding: 1rem;
+    }
 
-  #loginScreen {
-    flex-direction: column;
-  }
+    #loginScreen {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
 
-  select, button {
-    background: #000;
-    border: 1px solid #fff;
-    color: #fff;
-    font-family: monospace, monospace;
-    font-size: 1rem;
-    padding: 0.6rem 1rem;
-    margin: 0.5rem 0;
-    border-radius: 3px;
-    width: 160px;
-    cursor: pointer;
-    user-select: none;
-  }
+    select, button {
+      background: #000;
+      border: 1px solid #fff;
+      color: #fff;
+      font-family: monospace;
+      font-size: 1rem;
+      padding: 0.6rem 1rem;
+      margin: 0.5rem 0;
+      border-radius: 3px;
+      width: 180px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-  button:disabled {
-    opacity: 0.3;
-    cursor: default;
-  }
+    button:hover:not(:disabled), select:hover {
+      background-color: #fff;
+      color: #000;
+    }
 
-  #bioScreen {
-    flex-direction: column;
-    white-space: pre;
-  }
+    button:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
 
-  #asciiArtBox {
-    background: #000;
-    border: 1px solid #fff;
-    padding: 1rem;
-    max-width: 600px;
-    font-size: 0.65rem;
-    line-height: 1.1;
-    user-select: text;
-    overflow-x: auto;
-  }
+    #bioScreen {
+      flex-direction: column;
+      white-space: pre;
+      align-items: center;
+    }
 
-  #songInfo {
-    font-size: 0.65rem;
-    line-height: 1.1;
-    font-family: monospace, monospace;
-    max-width: 600px;
-    white-space: nowrap;
-    overflow: hidden;
-    position: relative;
-    height: 1rem;
-    margin-bottom: 0.5rem;
-  }
+    #asciiArtBox {
+      background: #000;
+      border: 1px solid #fff;
+      padding: 1rem;
+      max-width: 600px;
+      font-size: 0.7rem;
+      line-height: 1.1;
+      user-select: text;
+      overflow-x: auto;
+      color: #fff;
+    }
 
-  #songInfo span {
-    display: inline-block;
-    letter-spacing: 0.15rem;
-    animation: scrollLeftToRight 7s linear infinite;
-    white-space: nowrap;
-  }
-</style>
+    #songInfo {
+      font-size: 0.75rem;
+      font-family: monospace;
+      max-width: 600px;
+      overflow: hidden;
+      position: relative;
+      height: 1.2rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    #songInfo span {
+      display: inline-block;
+      letter-spacing: 0.1rem;
+      animation: scrollLeftToRight 7s linear infinite;
+      white-space: nowrap;
+    }
+
+    .bio-desc {
+      font-size: 1rem;
+      max-width: 600px;
+      white-space: normal;
+      text-align: left;
+      color: #fff;
+      padding: 1rem 0;
+    }
+  </style>
 </head>
 <body>
-<audio id="audio" preload="auto">
 
-</audio>
-
+<audio id="audio" preload="auto"></audio>
 <canvas class="stars"></canvas>
-
 
 <div class="screen" id="loginScreen">
   <select id="userSelect" aria-label="Select user">
@@ -125,7 +143,6 @@
   </select>
   <button id="loginBtn" disabled>login</button>
 </div>
-
 
 <div class="screen" id="bioScreen" style="display:none;">
   <div id="songInfo"></div> 
@@ -162,17 +179,14 @@
 |                                              |
 '=============================================='
   </div>
-  <div style="margin-top:2rem; font-size:1rem; color:#fff; max-width:600px; white-space:normal; text-align:left;">
+  <div style="margin-top:2rem;">
     <div class="bio-desc">
-      <span style="color:#bfc7d5;">
-      @tomb<br>
-      </span>
+      <span>@tomb</span>
     </div>
   </div>
 </div>
 
 <script>
-
   const canvas = document.querySelector('.stars');
   const ctx = canvas.getContext('2d');
 
@@ -216,23 +230,15 @@
       ctx.beginPath();
       ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
       ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
-      ctx.shadowColor = "#fff";
-      ctx.shadowBlur = 8 * star.alpha;
       ctx.fill();
-      ctx.shadowBlur = 0;
     }
     requestAnimationFrame(animateStars);
   }
 
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-  animateStars();
-
-
   const audio = document.getElementById('audio');
   const songList = ["song1.mp3", "song2.mp3", "song3.mp3"];
   const songMetadata = {
-    "song1.mp3": "Cocaine Krueger - Thru the Vibe (Prod. by Slick Killa)",
+    "song1.mp3": "ANVTHEMA - DROP ME OFF THE EARTH (FT. CROWS PEAK)",
     "song2.mp3": "Scott Brown - Taking Drugs?",
     "song3.mp3": "COCAINE KRUEGER - KILL4SPORT3"
   };
@@ -267,6 +273,10 @@
       }, 600);
     }
   });
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+  animateStars();
 </script>
 </body>
 </html>
