@@ -5,37 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>tomb.wtf</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       background: #000;
       color: #fff;
-      font-family: monospace, monospace;
+      font-family: monospace;
       overflow: hidden;
       user-select: none;
       cursor: url('cursor.cur'), auto;
     }
-
-    .fade-blur {
-      animation: fadeBlur 0.2s ease forwards;
-    }
-
-    @keyframes fadeBlur {
+    .a1 { animation: a2 0.2s ease forwards; }
+    @keyframes a2 {
       0% { opacity: 1; filter: blur(0); }
       100% { opacity: 0; filter: blur(5px); }
     }
-
-    @keyframes scrollLeftToRight {
-      0%   { transform: translateX(-100%); }
+    @keyframes a3 {
+      0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
     }
-
-    canvas.stars {
+    canvas.c1 {
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
@@ -44,8 +35,7 @@
       pointer-events: none;
       image-rendering: pixelated;
     }
-
-    .screen {
+    .c2 {
       position: relative;
       height: 100vh;
       width: 100vw;
@@ -55,17 +45,15 @@
       z-index: 1;
       padding: 1rem;
     }
-
-    #loginScreen {
+    #x1 {
       flex-direction: column;
       gap: 1rem;
       text-align: center;
     }
-
     select, button {
       background: #000;
-      border: 1px solid #ffffff;
-      color: #ffffff;
+      border: 1px solid #fff;
+      color: #fff;
       font-family: monospace;
       font-size: 1rem;
       padding: 0.6rem 1rem;
@@ -80,30 +68,34 @@
       position: relative;
       z-index: 2;
     }
-
     option {
       background: #000;
       color: #fff;
       font-family: monospace;
     }
-
     button:hover:not(:disabled), select:hover {
-      background-color: #ffffff;
-      color: #000000;
+      background-color: #fff;
+      color: #000;
     }
-
     button:disabled {
       opacity: 0.3;
       cursor: default;
     }
-
-    #bioScreen {
+    #x2 {
+      display: flex;
       flex-direction: column;
-      white-space: pre;
+      justify-content: center;
       align-items: center;
+      height: 100vh;
+      text-align: center;
     }
-
-    #asciiArtBox {
+    .c3 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    #x3 {
       background: #000;
       border: 1px solid #fff;
       padding: 1rem;
@@ -113,9 +105,9 @@
       user-select: text;
       overflow-x: auto;
       color: #fff;
+      text-align: center;
     }
-
-    #songInfo {
+    #x4 {
       font-size: 0.75rem;
       font-family: monospace;
       max-width: 600px;
@@ -125,41 +117,36 @@
       margin-bottom: 1rem;
       color: #fff;
     }
-
-    #songInfo span {
+    #x4 span {
       display: inline-block;
       letter-spacing: 0.1rem;
-      animation: scrollLeftToRight 7s linear infinite;
+      animation: a3 7s linear infinite;
       white-space: nowrap;
     }
-
-    .bio-desc {
+    .c4 {
       font-size: 1rem;
-      max-width: 600px;
-      white-space: normal;
-      text-align: left;
       color: #fff;
-      padding: 1rem 0;
     }
   </style>
 </head>
 <body>
 
+<audio id="m1" preload="auto"></audio>
+<canvas class="c1"></canvas>
 
-<audio id="audio" preload="auto"></audio>
-<canvas class="stars"></canvas>
-
-<div class="screen" id="loginScreen">
-  <select id="userSelect" aria-label="Select user">
-    <option disabled selected value="">choose user</option>
-    <option value="tomb">tomb</option>
+<div class="c2" id="x1">
+  <select id="u1" aria-label="u">
+    <option disabled selected value="">Select User</option>
+    <option value="1">tomb</option>
   </select>
-  <button id="loginBtn" disabled>login</button>
+  <button id="b1" disabled>Login</button>
 </div>
 
-<div class="screen" id="bioScreen" style="display:none;">
-  <div id="songInfo"></div> 
-  <div id="asciiArtBox" aria-label="ASCII art">
+<div class="c2" id="x2" style="display:none;">
+  <div id="x4"></div>
+  <div class="c3">
+    <div id="x3" aria-label="a">
+<pre id="asciiArtBox" aria-label="ASCII art">
 .==============================================.
 |                                              |
 |                           .'\                |
@@ -191,107 +178,103 @@
 |                                              |
 |                                              |
 '=============================================='
-</div>
-<div style="margin-top:2rem;">
-  <div class="bio-desc">
-<a href="https://discord.gg/cFCrWAwHb8" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-  <span>@tomb</span>
-</a>
+</pre>
+    </div>
+    <div class="c4">
+      <a href="https://discord.gg/cFCrWAwHb8" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+        <span>@tomb</span>
+      </a>
+    </div>
   </div>
 </div>
 
-
 <script>
-  const canvas = document.querySelector('.stars');
-  const ctx = canvas.getContext('2d');
+  const s1 = document.querySelector('.c1');
+  const s2 = s1.getContext('2d');
 
-  function Star(w, h) {
+  function f1(w, h) {
     this.x = Math.random() * w;
     this.y = Math.random() * h;
     this.r = Math.random() * 1.1 + 0.3;
     this.dx = (Math.random() - 0.5) * 0.08;
     this.dy = (Math.random() - 0.5) * 0.08;
-    this.alpha = Math.random() * 0.5 + 0.5;
+    this.a = Math.random() * 0.5 + 0.5;
   }
 
-  let stars = [];
-  let starCount = 0;
+  let s3 = [];
+  let s4 = 0;
 
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    starCount = Math.floor((canvas.width * canvas.height) / 3500);
-    stars = [];
-    for (let i = 0; i < starCount; i++) {
-      stars.push(new Star(canvas.width, canvas.height));
+  function f2() {
+    s1.width = window.innerWidth;
+    s1.height = window.innerHeight;
+    s4 = Math.floor((s1.width * s1.height) / 3500);
+    s3 = [];
+    for (let i = 0; i < s4; i++) {
+      s3.push(new f1(s1.width, s1.height));
     }
   }
 
-  function animateStars() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let star of stars) {
-      star.x += star.dx;
-      star.y += star.dy;
+  function f3() {
+    s2.clearRect(0, 0, s1.width, s1.height);
+    for (let s of s3) {
+      s.x += s.dx;
+      s.y += s.dy;
 
-      if (star.x < 0) star.x = canvas.width;
-      if (star.x > canvas.width) star.x = 0;
-      if (star.y < 0) star.y = canvas.height;
-      if (star.y > canvas.height) star.y = 0;
+      if (s.x < 0) s.x = s1.width;
+      if (s.x > s1.width) s.x = 0;
+      if (s.y < 0) s.y = s1.height;
+      if (s.y > s1.height) s.y = 0;
 
-      star.alpha += (Math.random() - 0.5) * 0.04;
-      if (star.alpha < 0.3) star.alpha = 0.3;
-      if (star.alpha > 1) star.alpha = 1;
+      s.a += (Math.random() - 0.5) * 0.04;
+      if (s.a < 0.3) s.a = 0.3;
+      if (s.a > 1) s.a = 1;
 
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
-      ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
-      ctx.fill();
+      s2.beginPath();
+      s2.arc(s.x, s.y, s.r, 0, 2 * Math.PI);
+      s2.fillStyle = `rgba(255,255,255,${s.a})`;
+      s2.fill();
     }
-    requestAnimationFrame(animateStars);
+    requestAnimationFrame(f3);
   }
 
-  const audio = document.getElementById('audio');
-  const songList = ["song1.mp3", "song2.mp3", "song3.mp3"];
-  const songMetadata = {
+  const m = document.getElementById('m1');
+  const mList = ["song1.mp3", "song2.mp3", "song3.mp3"];
+  const mMeta = {
     "song1.mp3": "ANVTHEMA - DROP ME OFF THE EARTH (FT. CROWS PEAK)",
     "song2.mp3": "Scott Brown - Taking Drugs?",
     "song3.mp3": "901KRUEGER - DONT YOU WONDER (PROD. BY SLICK KILLA)"
   };
 
-  const randomSong = songList[Math.floor(Math.random() * songList.length)];
-  audio.src = randomSong;
-  audio.volume = 0.2;
+  const mPick = mList[Math.floor(Math.random() * mList.length)];
+  m.src = mPick;
+  m.volume = 0.2;
 
-  const userSelect = document.getElementById('userSelect');
-  const loginBtn = document.getElementById('loginBtn');
-  const loginScreen = document.getElementById('loginScreen');
-  const bioScreen = document.getElementById('bioScreen');
-  const songInfoDiv = document.getElementById('songInfo');
+  const u = document.getElementById('u1');
+  const b = document.getElementById('b1');
+  const x = document.getElementById('x1');
+  const y = document.getElementById('x2');
+  const info = document.getElementById('x4');
 
-  userSelect.addEventListener("change", () => {
-    loginBtn.disabled = userSelect.value === "";
+  u.addEventListener("change", () => {
+    b.disabled = u.value === "";
   });
 
-  loginBtn.addEventListener("click", () => {
-    if (userSelect.value === "tomb") {
-      audio.play().catch(e => {
-        console.error("Audio play failed:", e);
-      });
-
-      const songTitle = songMetadata[randomSong] || "Unknown Track";
-      songInfoDiv.innerHTML = `<span>${songTitle}</span>`;
-
-      loginScreen.classList.add("fade-blur");
+  b.addEventListener("click", () => {
+    if (u.value === "1") {
+      m.play().catch(e => console.error(e));
+      info.innerHTML = `<span>${mMeta[mPick] || "Unknown Track"}</span>`;
+      x.classList.add("a1");
       setTimeout(() => {
-        loginScreen.style.display = 'none';
-        bioScreen.style.display = 'flex';
+        x.style.display = 'none';
+        y.style.display = 'flex';
       }, 600);
     }
   });
 
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-  animateStars();
+  window.addEventListener('resize', f2);
+  f2();
+  f3();
 </script>
+
 </body>
 </html>
