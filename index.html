@@ -8,6 +8,7 @@
     * {
       box-sizing: border-box;
     }
+
     html, body {
       margin: 0;
       padding: 0;
@@ -73,6 +74,17 @@
       width: 180px;
       cursor: pointer;
       transition: all 0.2s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      position: relative;
+      z-index: 2;
+    }
+
+    option {
+      background: #000;
+      color: #fff;
+      font-family: monospace;
     }
 
     button:hover:not(:disabled), select:hover {
@@ -133,6 +145,7 @@
 </head>
 <body>
 
+
 <audio id="audio" preload="auto"></audio>
 <canvas class="stars"></canvas>
 
@@ -181,9 +194,9 @@
 </div>
 <div style="margin-top:2rem;">
   <div class="bio-desc">
-    <a href="https://discord.gg/D6eqFuh7Dn" style="text-decoration: none; color: inherit;">
-      <span>@tomb</span>
-    </a>
+<a href="https://discord.gg/D6eqFuh7Dn" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+  <span>@tomb</span>
+</a>
   </div>
 </div>
 
