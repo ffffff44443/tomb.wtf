@@ -136,7 +136,7 @@
     }
   </style>
 </head>
-<body>
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;" onmousedown="if(event.button==2||event.button==3){return false;}">
 
 <audio id="m1" preload="auto"></audio>
 <canvas class="c1"></canvas>
@@ -196,9 +196,23 @@
 </div>
 
 <script>
+  Object.defineProperty(window, 'console', {value: {}, writable: false, configurable: false});
+  document.addEventListener('keydown', e => {
+    if(e.key==="F12"|| (e.ctrlKey && (e.shiftKey && e.key==="I")) || (e.ctrlKey && e.key==="U") || (e.ctrlKey && e.key==="S") || (e.ctrlKey && e.key==="C") || (e.ctrlKey && e.key==="J")){
+      e.preventDefault();
+    }
+  });
+  window.addEventListener('contextmenu', e => e.preventDefault());
+  window.addEventListener('keydown', e => {if(e.keyCode === 123) e.preventDefault()});
+  window.addEventListener('keydown', e => {if(e.ctrlKey && e.shiftKey && e.keyCode === 73) e.preventDefault()});
+  window.addEventListener('keydown', e => {if(e.ctrlKey && e.keyCode === 85) e.preventDefault()});
+  window.addEventListener('keydown', e => {if(e.ctrlKey && e.keyCode === 83) e.preventDefault()});
+  window.addEventListener('keydown', e => {if(e.ctrlKey && e.keyCode === 67) e.preventDefault()});
+  window.addEventListener('keydown', e => {if(e.ctrlKey && e.keyCode === 74) e.preventDefault()});
+  window.addEventListener('keydown', e => {if(e.keyCode === 44) e.preventDefault()});
+  window.addEventListener('visibilitychange', () => {if(document.visibilityState === 'visible') document.body.style.display = 'block'; else document.body.style.display = 'none';});
   const s1 = document.querySelector('.c1');
   const s2 = s1.getContext('2d');
-
   function f1(w, h) {
     this.x = Math.random() * w;
     this.y = Math.random() * h;
@@ -207,10 +221,8 @@
     this.dy = (Math.random() - 0.5) * 0.08;
     this.a = Math.random() * 0.5 + 0.5;
   }
-
   let s3 = [];
   let s4 = 0;
-
   function f2() {
     s1.width = window.innerWidth;
     s1.height = window.innerHeight;
@@ -220,22 +232,18 @@
       s3.push(new f1(s1.width, s1.height));
     }
   }
-
   function f3() {
     s2.clearRect(0, 0, s1.width, s1.height);
     for (let s of s3) {
       s.x += s.dx;
       s.y += s.dy;
-
       if (s.x < 0) s.x = s1.width;
       if (s.x > s1.width) s.x = 0;
       if (s.y < 0) s.y = s1.height;
       if (s.y > s1.height) s.y = 0;
-
       s.a += (Math.random() - 0.5) * 0.04;
       if (s.a < 0.3) s.a = 0.3;
       if (s.a > 1) s.a = 1;
-
       s2.beginPath();
       s2.arc(s.x, s.y, s.r, 0, 2 * Math.PI);
       s2.fillStyle = `rgba(255,255,255,${s.a})`;
@@ -243,7 +251,6 @@
     }
     requestAnimationFrame(f3);
   }
-
   const m = document.getElementById('m1');
   const mList = ["song1.mp3", "song2.mp3", "song3.mp3"];
   const mMeta = {
@@ -251,21 +258,17 @@
     "song2.mp3": "Scott Brown - Taking Drugs?",
     "song3.mp3": "901KRUEGER - DONT YOU WONDER (PROD. BY SLICK KILLA)"
   };
-
   const mPick = mList[Math.floor(Math.random() * mList.length)];
   m.src = mPick;
   m.volume = 0.2;
-
   const u = document.getElementById('u1');
   const b = document.getElementById('b1');
   const x = document.getElementById('x1');
   const y = document.getElementById('x2');
   const info = document.getElementById('x4');
-
   u.addEventListener("change", () => {
     b.disabled = u.value === "";
   });
-
   b.addEventListener("click", () => {
     if (u.value === "1") {
       m.play().catch(e => console.error(e));
@@ -277,7 +280,6 @@
       }, 600);
     }
   });
-
   window.addEventListener('resize', f2);
   f2();
   f3();
